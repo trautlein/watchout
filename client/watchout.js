@@ -30,14 +30,23 @@ var makeEvils = _.map(rangeEvil, function (i) {
   return obj;
 });
 
-debugger;
-var evils = d3.select('circle.enemy')
-              .data(makeEvils, function(d) { return d.id; });
+d3.select(".gameboard").selectAll("svg")
+  .data([{id: 0, x: 30, y: 40}, {id: 1, x: 80, y: 60}])
+  .enter().append('svg:circle')
+  .attr('cx', function(d) { return axes.x(d.x); })
+  .attr('cy', function(d) { return axes.x(d.y); })
+  .attr('radius', 10)
+  .style('color', 'black')
+  .style('z-index', 1000);
 
-evils.enter()
-     .append('svg:circle')
-       .attr('class', 'evil')
-       .attr('cx', function(d) { return axes.x(d.x); })
-       .attr('cy', function(d) { return axes.y(d.y); })
-       .attr('r', 10);
+// debugger;
+// var evils = d3.select('circle.enemy')
+//               .data(makeEvils, function(d) { return d.id; });
+
+// evils.enter()
+//      .append('svg:circle')
+//        .attr('class', 'evil')
+//        .attr('cx', function(d) { return axes.x(d.x); })
+//        .attr('cy', function(d) { return axes.y(d.y); })
+//        .attr('r', 10);
 
