@@ -29,25 +29,17 @@ var evils = _.map(_.range(0, boardOptions.numberEnemies), function (i) {
   return obj;
 });
 
+console.log(evils);
 
-d3.select('svg').selectAll('circle')
+var move = d3.select('svg').selectAll('circle')
   .data(evils)
   .enter().append('circle')
   .attr('cx', function(d) { return Math.floor(axes.x(d.x)); })
   .attr('cy', function(d) { return Math.floor(axes.x(d.y)); })
-  .attr('radius', 10)
-  .style('fill', 'yellow');
-  // .attr('fill', 'black');
+  .attr('r', 7)
+  .style('fill', 'red')
+  .transition()
+  .duration(3000);
 
 
-// debugger;
-// var evils = d3.select('circle.enemy')
-//               .data(evils, function(d) { return d.id; });
-
-// evils.enter()
-//      .append('svg:circle')
-//        .attr('class', 'evil')
-//        .attr('cx', function(d) { return axes.x(d.x); })
-//        .attr('cy', function(d) { return axes.y(d.y); })
-//        .attr('r', 10);
-
+  
