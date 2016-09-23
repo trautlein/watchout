@@ -2,7 +2,8 @@
 
 var boardOptions = {
   height: 400,
-  width: 500
+  width: 500,
+  numberEnemies: 20
 };
 
 
@@ -18,9 +19,7 @@ var axes = {
   y: d3.scale.linear().domain([0, 100]).range([0, boardOptions.height])
 };
 
-var rangeEvil = _.range(0, 10);
-
-var makeEvils = _.map(rangeEvil, function (i) {
+var evils = _.map(_.range(0, boardOptions.numberEnemies), function (i) {
   var obj = {};
 
   obj.id = i;
@@ -29,6 +28,7 @@ var makeEvils = _.map(rangeEvil, function (i) {
   
   return obj;
 });
+
 
 d3.select(".gameboard").selectAll("svg")
   .data([{id: 0, x: 30, y: 40}, {id: 1, x: 80, y: 60}])
@@ -41,7 +41,7 @@ d3.select(".gameboard").selectAll("svg")
 
 // debugger;
 // var evils = d3.select('circle.enemy')
-//               .data(makeEvils, function(d) { return d.id; });
+//               .data(evils, function(d) { return d.id; });
 
 // evils.enter()
 //      .append('svg:circle')
