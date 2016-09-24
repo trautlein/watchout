@@ -2,7 +2,7 @@
 var boardOptions = {
   height: 400,
   width: 500,
-  numberEnemies: 20
+  numberEnemies: 2
 };
 
 d3.select('.board').append('svg')
@@ -26,6 +26,10 @@ var drag = d3.behavior.drag()
     });
   });
 
+  // var collisionChecker() {
+
+  // }
+
 //Good Guy
 var goodGuy = [{
   id: 'good',
@@ -34,8 +38,6 @@ var goodGuy = [{
   fill: 'blue',
   r: 9
 }];
-
-
 
 //Bad Guy Stuff
 var evils = _.range(0, boardOptions.numberEnemies).map(function (i) {
@@ -63,6 +65,7 @@ var start = function (d) {
   d3.select('svg').selectAll('circle')
                   .data(d)
                   .enter().append('circle')
+                  .attr('class', 'enemy')
                   .style('fill', 'red')
                   .attr('r', 10)
                   .attr('cx', function(d) { return Math.floor(axes.x(d.x)); })
@@ -70,7 +73,6 @@ var start = function (d) {
 };
 
 var startPlayer = function (d) {
-  console.log('test');
   d3.select('svg').selectAll('rect')
                   .data(d)
                   .enter().append('rect')
@@ -79,19 +81,34 @@ var startPlayer = function (d) {
                   .style('fill', 'blue')
                   .attr('x', function() { return 0; })
                   .attr('y', function() { return 0; })
+                  .attr('r', 10)
                   .call(drag);
 };
 
-var update = function (d) {
+var update = function (evils) {
   d3.select('svg').selectAll('circle')
-                  .data(d)
+                  .data(evils)
                   .transition()
                   .duration(4000)
-                  .attr('cx', function(d) { return Math.random() * 500; })
-                  .attr('cy', function(d) { return Math.random() * 400; });
+                  .attr('cx', function(d) { d.cx = Math.random() * 500; return d.cx; })
+                  .attr('cy', function(d) { d.cy = Math.random() * 400; return d.cy; });
+
+  var evilsArr = d3.selectAll('circle');
+  var fromX = evilsArr[0];
+  var endY;
+  
+  for (var i = 0; i < evilsArr[0].length; i++) {
+    endX = evilsArr[0][i]['cx'];
+    endY = evilsArr[0][i]['cy'];
+    console.log(evilsArr[0][i]);
+  }
+
+  var collisionChecker = function() {
+    //
+  };
 };
 
-//
+
 start(evils);
 
 startPlayer(goodGuy);
@@ -102,13 +119,8 @@ update(updateArray());
 var updated;
 setInterval(function() {
   updated = updateArray();
-  console.log(updated);
   update(updated);
 }, 4000);
-
-// setInterval(update(function() { updateArray() }), 4000);
-
-
 
 
 
