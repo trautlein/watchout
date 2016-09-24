@@ -1,3 +1,4 @@
+//Board Stuff
 var boardOptions = {
   height: 400,
   width: 500,
@@ -9,12 +10,24 @@ d3.select('.board').append('svg')
   .attr('height', boardOptions.height)
   .attr('width', boardOptions.width);
 
+//Scale Stuff
 var axes = {
   x: d3.scale.linear().domain([0, 100]).range([0, boardOptions.width]),
   y: d3.scale.linear().domain([0, 100]).range([0, boardOptions.height])
 };
 
-// map evils to 
+//Good Guy
+var goodGuy = [{
+  id: 'good',
+  x: 250,
+  y: 200,
+  fill: 'blue',
+  r: 9
+}];
+
+
+
+//Bad Guy Stuff
 var evils = _.map(_.range(0, boardOptions.numberEnemies), function (i) {
   var obj = {
     id: i,
@@ -36,9 +49,7 @@ var updateArray = function() {
   return newArray;
 };
 
-
 var start = function (d) {
-  console.log(d);
   d3.select('svg').selectAll('circle')
                   .data(d)
                   .enter().append('circle')
@@ -48,8 +59,19 @@ var start = function (d) {
                   .attr('cy', function(d) { return Math.floor(axes.x(d.y)); });
 };
 
+var startPlayer = function (d) {
+  console.log('test');
+  d3.select('svg').selectAll('rect')
+                  .data(d)
+                  .enter().append('rect')
+                  .attr('width', 20)
+                  .attr('height', 20)
+                  .style('fill', 'blue')
+                  .attr('x', function() { return 240; })
+                  .attr('y', function() { return 190; });
+};
+
 var update = function (d) {
-  console.log(d);
   d3.select('svg').selectAll('circle')
                   .data(d)
                   .transition()
@@ -58,7 +80,9 @@ var update = function (d) {
                   .attr('cy', function(d) { return Math.floor(axes.y(d.y)); });
 };
 
+//
 start(evils);
+startPlayer(goodGuy);
 update(updateArray());
 setInterval(function() { 
   update(updateArray());
